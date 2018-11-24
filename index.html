@@ -12,6 +12,14 @@
         <div class="navbar-logo">
           <img src="logotext.svg" id="nav-logo-img" alt="logo">
         </div>
+        <div ng-show="refresh">
+          <div id="circle">
+            <div class="loader">
+              <div class="loader">
+              </div>
+            </div>
+          </div>
+        </div>
         <div>
           <span>Memory: <input ng-model="total_mem" /></span>
           <span>CPU: <input ng-model="total_cpu" /></span>

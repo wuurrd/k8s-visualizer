@@ -1,6 +1,6 @@
 var app = angular.module("k8s", []);
 
-app.controller("podview", function($scope, $http) {
+app.controller("podview", function($scope, $http, $interval) {
     $scope.nodes = {};
     $scope.total_mem = 16;
     $scope.total_cpu = 4;
@@ -78,19 +78,27 @@ app.controller("podview", function($scope, $http) {
         return (100 * memUsage / $scope.total_mem) + "%";
     };
 
-    var pods = $http.get('/api/v1/pods').then(function(data){
-        angular.forEach(data.data.items, function(item){
-            if (item.status.phase !== "Running") {
-                return;
-            }
-            if (item.metadata.namespace !== "default") {
-                return;
-            }
-            var host = item.status.hostIP;
-            if ($scope.nodes[host] === undefined) {
-                $scope.nodes[host] = [];
-            }
-            $scope.nodes[host].push(item);
+    $scope.updatePods = function() {
+        $scope.refresh = true;
+        $http.get('/api/v1/pods').then(function(data){
+            $scope.nodes = {};
+            angular.forEach(data.data.items, function(item){
+                if (item.status.phase !== "Running") {
+                    return;
+                }
+                if (item.metadata.namespace !== "default") {
+                    return;
+                }
+                var host = item.status.hostIP;
+                if ($scope.nodes[host] === undefined) {
+                    $scope.nodes[host] = [];
+                }
+                $scope.nodes[host].push(item);
+            });
+            $scope.refresh = false;
         });
-    });
+    };
+    $scope.refresh = true;
+    $interval($scope.updatePods, 30 * 1000);
+    $scope.updatePods();
 });

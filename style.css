@@ -51,7 +51,7 @@ body {
 
 .pods {
     text-align: center;
-    margin: 1px;
+    margin: 2px;
     padding: 4px;
     border-radius: 15px;
     background: white;
@@ -59,9 +59,27 @@ body {
 }
 
 .nodesbar {
+    justify-content: space-around;
     display: flex;
-    justify-content: space-between;
     align-content: center;
     flex-flow: row wrap;
     width: 100%;
 }
+
+#circle {
+	width: 40px;
+    height: 40px;
+}
+
+.loader {
+    width: calc(100% - 0px);
+	height: calc(100% - 0px);
+	border: 6px solid white;
+	border-top: 6px solid #09f;
+	border-radius: 50%;
+	animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+100% {transform: rotate(360deg);}
+} 
