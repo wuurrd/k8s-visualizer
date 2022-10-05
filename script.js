@@ -86,9 +86,6 @@ app.controller("podview", function($scope, $http, $interval) {
                 if (item.status.phase !== "Running") {
                     return;
                 }
-                if (item.metadata.namespace !== "default") {
-                    return;
-                }
                 var host = item.status.hostIP;
                 if ($scope.nodes[host] === undefined) {
                     $scope.nodes[host] = [];
